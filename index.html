@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>블랙 갈릭 | iOS 네이티브 앱을 만드는 회사</title>
+  <meta
+    name="description"
+    content="블랙 갈릭은 숙성된 코드로 iOS 네이티브 앱을 만드는 회사입니다. 테슬라타임과 루틴타이머를 제작하고 운영합니다."
+  >
+  <meta
+    name="keywords"
+    content="블랙 갈릭, Black Garlic, iOS 앱 개발, iOS 네이티브 앱, 아이폰 앱 제작, 테슬라타임, 루틴타이머"
+  >
+  <meta name="author" content="Black Garlic">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#16120f">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://blackgarlic.xyz/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="블랙 갈릭">
+  <meta property="og:url" content="https://blackgarlic.xyz/">
+  <meta property="og:title" content="블랙 갈릭 | iOS 네이티브 앱을 만드는 회사">
+  <meta
+    property="og:description"
+    content="블랙 갈릭은 숙성된 코드로 iOS 네이티브 앱을 만드는 회사입니다. 테슬라타임과 루틴타이머를 제작하고 운영합니다."
+  >
+  <meta property="og:image" content="https://blackgarlic.xyz/og-image.svg">
+  <meta property="og:image:type" content="image/svg+xml">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="블랙 갈릭 소개 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="블랙 갈릭 | iOS 네이티브 앱을 만드는 회사">
+  <meta
+    name="twitter:description"
+    content="블랙 갈릭은 숙성된 코드로 iOS 네이티브 앱을 만드는 회사입니다. 테슬라타임과 루틴타이머를 제작하고 운영합니다."
+  >
+  <meta name="twitter:image" content="https://blackgarlic.xyz/og-image.svg">
+  <meta name="twitter:image:alt" content="블랙 갈릭 소개 이미지">
+  <link rel="icon" type="image/svg+xml" href="https://blackgarlic.xyz/favicon.svg">
+  <link rel="shortcut icon" href="https://blackgarlic.xyz/favicon.svg">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+    :root {
+      --bg: #f5f1e8;
+      --bg-soft: rgba(255, 255, 255, 0.62);
+      --surface: #16120f;
+      --surface-soft: rgba(22, 18, 15, 0.84);
+      --text: #231a14;
+      --text-muted: rgba(35, 26, 20, 0.72);
+      --line: rgba(35, 26, 20, 0.1);
+      --accent: #8f5e32;
+      --accent-soft: rgba(143, 94, 50, 0.12);
+      --white: #fffdf9;
+      --shadow: 0 24px 60px rgba(35, 26, 20, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --content-width: min(1120px, calc(100vw - 40px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(143, 94, 50, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(71, 51, 35, 0.12), transparent 30%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page-shell {
+      width: var(--content-width);
+      margin: 0 auto;
+      padding: 24px 0 80px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+      margin-bottom: 28px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      background: rgba(255, 253, 249, 0.72);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 30px rgba(35, 26, 20, 0.08);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent),
+        var(--surface);
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-copy strong,
+    .section-eyebrow,
+    .hero-kicker,
+    .service-card span,
+    .tag {
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .brand-copy p {
+      margin: 2px 0 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: var(--accent-soft);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 72px 56px;
+      border-radius: calc(var(--radius-xl) + 8px);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 42%),
+        linear-gradient(160deg, rgba(112, 74, 41, 0.92), rgba(22, 18, 15, 0.98));
+      color: var(--white);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(6px);
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 220px;
+      height: 220px;
+      top: -50px;
+      right: 8%;
+      background: radial-gradient(circle, rgba(255, 211, 170, 0.34), transparent 70%);
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      bottom: -80px;
+      left: -20px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 70%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.9fr);
+      gap: 36px;
+      align-items: end;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffd09b;
+      box-shadow: 0 0 0 6px rgba(255, 208, 155, 0.15);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(2.8rem, 6vw, 5.6rem);
+    }
+
+    .hero-copy p {
+      margin: 20px 0 0;
+      max-width: 620px;
+      font-size: 1.08rem;
+      color: rgba(255, 253, 249, 0.78);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--white);
+      color: var(--surface);
+      box-shadow: 0 12px 24px rgba(255, 255, 255, 0.12);
+    }
+
+    .button-secondary {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+    }
+
+    .hero-panel {
+      align-self: stretch;
+      display: grid;
+      gap: 14px;
+    }
+
+    .metric-card,
+    .content-card,
+    .service-card {
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-card {
+      padding: 24px;
+      background: rgba(255, 253, 249, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: rgba(255, 253, 249, 0.72);
+    }
+
+    .metric-card b {
+      display: block;
+      margin-top: 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+    }
+
+    .metric-card p {
+      margin: 10px 0 0;
+      color: rgba(255, 253, 249, 0.72);
+    }
+
+    .content-section {
+      margin-top: 26px;
+    }
+
+    .content-grid {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .content-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      background: var(--bg-soft);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(14px);
+    }
+
+    .content-card.dark {
+      background: var(--surface-soft);
+      color: var(--white);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .content-card.about {
+      grid-column: span 7;
+    }
+
+    .content-card.ceo {
+      grid-column: span 5;
+    }
+
+    .content-card.services {
+      grid-column: span 7;
+    }
+
+    .content-card.contact {
+      grid-column: span 5;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .dark .section-eyebrow {
+      color: #edc59d;
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .content-card h2 {
+      font-size: clamp(2rem, 3vw, 3rem);
+    }
+
+    .content-card h3 {
+      font-size: 1.45rem;
+    }
+
+    .content-card p {
+      margin: 16px 0 0;
+      color: var(--text-muted);
+    }
+
+    .dark p,
+    .dark .contact-list a,
+    .dark .contact-list span {
+      color: rgba(255, 253, 249, 0.74);
+    }
+
+    .about-points,
+    .service-list,
+    .contact-list {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+    }
+
+    .about-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .about-points li,
+    .contact-list li {
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid var(--line);
+    }
+
+    .about-points strong,
+    .ceo-quote strong,
+    .service-card strong,
+    .contact-list strong {
+      display: block;
+      font-size: 1rem;
+    }
+
+    .about-points span,
+    .contact-list span {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .ceo-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .ceo-avatar {
+      flex: 0 0 76px;
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.24), transparent),
+        linear-gradient(145deg, #9a693c, #3f2d20);
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .ceo-role {
+      margin-top: 4px;
+      color: rgba(255, 253, 249, 0.68);
+      font-size: 0.95rem;
+    }
+
+    .ceo-quote {
+      margin-top: 26px;
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .ceo-quote p {
+      margin: 12px 0 0;
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .service-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: 100%;
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid var(--line);
+    }
+
+    .service-card span {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .service-card p {
+      margin-top: 10px;
+      font-size: 0.96rem;
+    }
+
+    .service-link {
+      margin-top: auto;
+      padding-top: 18px;
+      color: var(--surface);
+      font-weight: 600;
+    }
+
+    .service-link::after {
+      content: "->";
+      margin-left: 8px;
+      font-size: 0.95rem;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-list small {
+      display: inline-block;
+      color: #edc59d;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+
+    .contact-list small + strong {
+      margin-top: 8px;
+    }
+
+    .contact-list li {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .contact-list a {
+      display: inline-block;
+      margin-top: 6px;
+      transition: opacity 180ms ease;
+    }
+
+    .contact-list a:hover,
+    .contact-list a:focus-visible {
+      opacity: 0.82;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 253, 249, 0.82);
+      font-size: 0.86rem;
+    }
+
+    .site-footer {
+      margin-top: 22px;
+      padding: 0 6px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        padding: 48px 28px;
+      }
+
+      .hero-grid,
+      .content-grid,
+      .service-list {
+        grid-template-columns: 1fr;
+      }
+
+      .content-card.about,
+      .content-card.ceo,
+      .content-card.services,
+      .content-card.contact {
+        grid-column: span 12;
+      }
+
+      .hero-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell {
+        width: min(100vw - 24px, 100%);
+        padding: 12px 0 56px;
+      }
+
+      .site-header {
+        position: static;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 28px;
+      }
+
+      .nav-links {
+        justify-content: space-between;
+      }
+
+      .nav-links a {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+        background: rgba(143, 94, 50, 0.06);
+      }
+
+      .hero {
+        padding: 36px 22px;
+        border-radius: 28px;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 14vw, 4rem);
+      }
+
+      .hero-copy p,
+      .content-card p {
+        font-size: 1rem;
+      }
+
+      .hero-panel,
+      .about-points {
+        grid-template-columns: 1fr;
+      }
+
+      .content-card {
+        padding: 24px 20px;
+      }
+
+      .ceo-header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <nav class="nav" aria-label="주요 메뉴">
+        <a class="brand" href="#top" aria-label="블랙 갈릭 홈">
+          <span class="brand-mark">BG</span>
+          <span class="brand-copy">
+            <strong>블랙 갈릭</strong>
+            <p>숙성된 코드로 제품의 깊이를 만듭니다</p>
+          </span>
+        </a>
+        <div class="nav-links">
+          <a href="#ceo">CEO</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-kicker">AGED CODE STUDIO</span>
+            <h1 id="hero-title">시간을 들여 깊이를 만드는 개발 회사</h1>
+            <p>
+              블랙 갈릭은 마늘을 숙성시켜 흑마늘을 만들듯, 빠르게 쌓기보다 충분히 다듬고
+              검증한 코드를 통해 오래 버티는 디지털 제품을 만듭니다.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#contact">프로젝트 문의하기</a>
+              <a class="button button-secondary" href="#services">서비스 보기</a>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="핵심 가치">
+            <article class="metric-card">
+              <strong>Approach</strong>
+              <b>Slow is Smooth</b>
+              <p>설계, 구현, 운영까지 반복적으로 숙성시키는 개발 프로세스를 지향합니다.</p>
+            </article>
+            <article class="metric-card">
+              <strong>Outcome</strong>
+              <b>Stable &amp; Clear</b>
+              <p>읽기 쉬운 구조와 안정적인 동작을 기반으로 확장 가능한 제품을 제공합니다.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="tag-row" aria-label="핵심 키워드">
+          <span class="tag">Product Development</span>
+          <span class="tag">UX-minded Engineering</span>
+          <span class="tag">Maintainable Architecture</span>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="content-grid">
+          <article class="content-card about" id="about">
+            <span class="section-eyebrow">ABOUT</span>
+            <h2>숙성된 코드는 오래갑니다.</h2>
+            <p>
+              블랙 갈릭은 단순히 기능을 빠르게 만드는 팀이 아닙니다. 제품의 목적을 이해하고,
+              코드의 수명과 운영 효율까지 고려해 더 깊고 단단한 결과물을 설계합니다.
+            </p>
+            <ul class="about-points">
+              <li>
+                <strong>깊이 있는 설계</strong>
+                <span>단기 구현보다 장기 유지보수와 확장성을 우선합니다.</span>
+              </li>
+              <li>
+                <strong>정제된 구현</strong>
+                <span>복잡함을 줄이고, 이해 가능한 구조를 만드는 데 집중합니다.</span>
+              </li>
+              <li>
+                <strong>브랜드 감도</strong>
+                <span>기능뿐 아니라 사용자가 느끼는 인상과 흐름까지 함께 설계합니다.</span>
+              </li>
+              <li>
+                <strong>안정적 운영</strong>
+                <span>배포 이후의 수정, 관리, 개선이 쉬운 기반을 만드는 것이 목표입니다.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="content-card dark ceo" id="ceo">
+            <span class="section-eyebrow">CEO</span>
+            <div class="ceo-header">
+              <div class="ceo-avatar" aria-hidden="true">BG</div>
+              <div>
+                <h3>Black Garlic CEO</h3>
+                <p class="ceo-role">숙성된 개발 철학을 이끄는 리더</p>
+              </div>
+            </div>
+            <div class="ceo-quote">
+              <strong>“좋은 코드는 빠르게 쓴 코드가 아니라, 오래 남을 수 있도록 다듬어진 코드입니다.”</strong>
+              <p>
+                블랙 갈릭은 기술을 결과물로만 보지 않습니다. 제품의 방향, 팀의 운영 방식,
+                그리고 다음 단계의 성장까지 견딜 수 있는 코드베이스를 함께 만듭니다.
+              </p>
+            </div>
+          </article>
+
+          <article class="content-card services" id="services">
+            <span class="section-eyebrow">SERVICES</span>
+            <h2>iOS 네이티브 앱 제작에 집중합니다.</h2>
+            <p>
+              블랙 갈릭은 현재 iOS 네이티브 앱만 제작합니다. 아이폰 사용 경험에 맞춘 구조와
+              흐름을 설계하고, 실제 사용 장면을 고려한 앱을 직접 만들고 운영합니다.
+            </p>
+            <ul class="service-list">
+              <li class="service-card">
+                <span>APP 01</span>
+                <strong>테슬라타임</strong>
+                <p>
+                  테슬라 블랙박스 영상에 시간, 위치, 핸들 조향, 속도 등 주행 정보를 오버레이해
+                  하나의 영상으로 렌더링할 수 있는 iOS 앱입니다.
+                </p>
+                <a
+                  class="service-link"
+                  href="https://apps.apple.com/kr/app/%ED%85%8C%EC%8A%AC%EB%9D%BC%ED%83%80%EC%9E%84/id6504272991"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >App Store 보기</a>
+              </li>
+              <li class="service-card">
+                <span>APP 02</span>
+                <strong>루틴타이머</strong>
+                <p>
+                  운동 세트를 구성하고 타이머로 루틴을 관리할 수 있는 iOS 앱입니다. 달력 기능을
+                  통해 운동 일지를 기록하고 흐름을 이어갈 수 있습니다.
+                </p>
+                <a
+                  class="service-link"
+                  href="https://apps.apple.com/kr/app/%EB%A3%A8%ED%8B%B4%ED%83%80%EC%9D%B4%EB%A8%B8/id6749602519"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >App Store 보기</a>
+              </li>
+            </ul>
+          </article>
+
+          <article class="content-card dark contact" id="contact">
+            <span class="section-eyebrow">CONTACT</span>
+            <h2>문의는 간결하게, 협업은 깊이 있게.</h2>
+            <p>
+              프로젝트 목표와 현재 상황만 간단히 보내주시면, 필요한 범위와 방식부터 정리해
+              드립니다.
+            </p>
+            <ul class="contact-list">
+              <li>
+                <small>EMAIL</small>
+                <strong>ceo@blackgarlic.xyz</strong>
+              </li>
+              <li>
+                <strong>위치</strong>
+                <span>Ulsa, Korea</span>
+              </li>
+              <li>
+                <strong>응답 방식</strong>
+                <span>이메일 접수 후 1영업일 내 회신</span>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Black Garlic. Aged code for enduring products.</p>
+    </footer>
+  </div>
+</body>
+</html>
